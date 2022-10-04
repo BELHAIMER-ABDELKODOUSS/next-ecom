@@ -2,6 +2,13 @@ import React from "react";
 import { useQuery } from "urql";
 import { GET_PRODUCT_QUERY } from "../../lib/query";
 import { useRouter } from "next/router";
+import {
+  DetailsStyle,
+  ProductInfo,
+  Quantity,
+  Buy,
+} from "../../styles/ProductDetails";
+import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 
 export default function Product_Details() {
   const { query } = useRouter();
@@ -13,22 +20,29 @@ export default function Product_Details() {
   const { data, fetching, error } = result;
   if (fetching) return <p>Loading ...</p>;
   if (error) return <p>Error ...</p>;
-
-  console.log(data);
+  console.log(data.products.data[0].attributes);
+  const product = data.products.data[0].attributes;
   return (
-    <div>
-      <img src='' alt='' />
-      <div>
-        <h3>Title</h3>
-        <p>description</p>
-      </div>
-      <div>
-        <span>quantity</span>
-        <button>Plus</button>
-        <p>0</p>
-        <button>minus</button>
-      </div>
-      <button>Add To Cart</button>
-    </div>
+    <DetailsStyle>
+      <img
+        src={product.image.data.attributes.formats.medium.url}
+        alt={product.Title}
+      />
+      <ProductInfo>
+        <h3>{product.Title}</h3>
+        <p>{product.description}</p>
+        <Quantity>
+          <span>Quantity</span>
+          <button>
+            <AiFillPlusCircle />
+          </button>
+          <p>0</p>
+          <button>
+            <AiFillMinusCircle />
+          </button>
+        </Quantity>
+        <Buy>Add To Cart</Buy>
+      </ProductInfo>
+    </DetailsStyle>
   );
 }
