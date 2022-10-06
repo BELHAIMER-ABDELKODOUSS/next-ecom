@@ -9,9 +9,11 @@ import {
   Buy,
 } from "../../styles/ProductDetails";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
+import { useStateContext } from "../../lib/context";
 
 export default function Product_Details() {
   const { query } = useRouter();
+  const { qty, increaseQty, decreaseQty } = useStateContext();
 
   const [result] = useQuery({
     query: GET_PRODUCT_QUERY,
@@ -20,7 +22,7 @@ export default function Product_Details() {
   const { data, fetching, error } = result;
   if (fetching) return <p>Loading ...</p>;
   if (error) return <p>Error ...</p>;
-  console.log(data.products.data[0].attributes);
+
   const product = data.products.data[0].attributes;
   return (
     <DetailsStyle>
@@ -33,11 +35,11 @@ export default function Product_Details() {
         <p>{product.description}</p>
         <Quantity>
           <span>Quantity</span>
-          <button>
+          <button onClick={increaseQty}>
             <AiFillPlusCircle />
           </button>
-          <p>0</p>
-          <button>
+          <p>{qty}</p>
+          <button onClick={decreaseQty}>
             <AiFillMinusCircle />
           </button>
         </Quantity>
