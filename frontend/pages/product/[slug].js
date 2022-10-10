@@ -13,7 +13,7 @@ import { useStateContext } from "../../lib/context";
 
 export default function Product_Details() {
   const { query } = useRouter();
-  const { qty, increaseQty, decreaseQty } = useStateContext();
+  const { qty, increaseQty, decreaseQty, onAdd } = useStateContext();
 
   const [result] = useQuery({
     query: GET_PRODUCT_QUERY,
@@ -43,7 +43,7 @@ export default function Product_Details() {
             <AiFillMinusCircle />
           </button>
         </Quantity>
-        <Buy>Add To Cart</Buy>
+        <Buy onClick={() => onAdd(product, qty)}>Add To Cart</Buy>
       </ProductInfo>
     </DetailsStyle>
   );
