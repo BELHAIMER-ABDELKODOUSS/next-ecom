@@ -13,24 +13,23 @@ import {
 } from "../styles/CartStyles";
 import getStripe from "../lib/getStrip";
 
-//payemnt
-const handleCheckout = async (cartItems) => {
-  const stripePromise = await getStripe();
-  const response = await fetch("/api/stripe", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(cartItems),
-  });
-  const data = await response.json();
-  await stripePromise.redirectToCheckout({ sessionId: data.id });
-};
-
 export default function Cart() {
   const { cartItems, setShowCarts, qty, onAdd, totalprice, removeCart } =
     useStateContext();
-
+  //payemnt
+  const handleCheckout = async () => {
+    const stripePromise = await getStripe();
+    const response = await fetch("/api/stripe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cartItems),
+    });
+    const data = await response.json();
+    console.log(data);
+    await stripePromise.redirectToCheckout({ sessionId: data.sessionId });
+  };
   return (
     <CartWrapper
       initial={{ opacity: 0 }}
@@ -89,7 +88,7 @@ export default function Cart() {
         {cartItems.length >= 1 && (
           <Checkout layout>
             <h3>Subtotal : {totalprice} $</h3>
-            <button onClick={() => handleCheckout(cartItems)}>Purchase</button>
+            <button onClick={handleCheckout}>Purchase</button>
           </Checkout>
         )}
       </CartStyle>

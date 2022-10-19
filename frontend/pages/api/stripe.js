@@ -10,10 +10,12 @@ export default async function handler(req, res) {
         submit_type: "pay",
         mode: "payment",
         payment_method_types: ["card"],
-        customer: stripeId,
+        // customer: stripeId,
         shipping_address_collection: {
           allowed_countries: ["US", "CA"],
         },
+        allow_promotion_codes: true,
+        shipping_options: [{ shipping_rate: "shr_1Lt9aOCie2hB1pPu8Ds3EjuT" }],
         line_items: req.body.map((item) => {
           return {
             price_data: {
