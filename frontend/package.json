@@ -18,7 +18,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "stripe": "^10.13.0",
-    "styled-components": "^5.3.6",
+    "styled-components": "^5.3.7",
     "urql": "^3.0.3"
   },
   "devDependencies": {
